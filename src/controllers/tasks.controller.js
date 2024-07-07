@@ -127,7 +127,7 @@ async function deleteTask(req, res) {
             }
         });
         logger.info(`[task.controller] Deleted records: ${deletedRecords}`);
-        return res.json(deletedRecords);
+        return res.sendStatus(204);
     } catch (error) {
         logger.error(error.message);
         return res.status(500).json({
