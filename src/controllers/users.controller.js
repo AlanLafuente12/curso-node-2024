@@ -66,10 +66,10 @@ async function createUser(req, res) {
 }
 async function updateUser(req, res) {
     let password = req.body.password
-    const { username, status } = req.body;
+    const { username } = req.body;
     const { id } = req.params;
     try {
-        if (!username || !password || !status) {
+        if (!username || !password) {
             return res.status(400).json({
                 message: 'Faltan datos en la consulta'
             })
@@ -78,8 +78,7 @@ async function updateUser(req, res) {
         password = await encriptar(password);
         const updatedRecords = await User.update({
             username: username,
-            password: password,
-            status: status
+            password: password
         }, {
             where: {
                 id: id
