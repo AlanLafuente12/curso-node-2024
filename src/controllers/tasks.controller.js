@@ -5,7 +5,7 @@ async function getTasks(req, res) {
     const { userId } = req.user;
     try {
         const task = await Task.findAll({
-            attributes: ['id', 'name', 'done', 'user_id'],
+            attributes: ['id', 'name', 'done'],
             order: [
                 ['id', 'ASC']
             ],
@@ -26,7 +26,7 @@ async function getTask(req, res) {
     const { userId } = req.user;
     try {
         const task = await Task.findOne({
-            attributes: ['id', 'name', 'done', 'user_id'],
+            attributes: ['name', 'done'],
             order: [
                 ['id', 'ASC']
             ],
@@ -82,7 +82,7 @@ async function updateTask(req, res) {
         if (updatedRecords[0] === 0) {
             return res.json({ message: `[task.controller] Task not found` });
         }
-        return res.json({ message: `[task.controller] Task name updated to '${name}'` });
+        return res.json(updatedRecords);
     } catch (error) {
         logger.error(error.message);
         return res.status(500).json({
@@ -108,7 +108,7 @@ async function taskDone(req, res) {
         if (updatedRecords[0] === 0) {
             return res.json({ message: `[task.controller] Task not found` });
         }
-        return res.json({ message: `[task.controller] Task's 'done' value updated to'${done}'` });
+        return res.json(updatedRecords);
     } catch (error) {
         logger.error(error.message);
         return res.status(500).json({
@@ -127,7 +127,7 @@ async function deleteTask(req, res) {
             }
         });
         logger.info(`[task.controller] Deleted records: ${deletedRecords}`);
-        return res.json({ message: `[task.controller] Deleted records: ${deletedRecords}` });
+        return res.json(deletedRecords);
     } catch (error) {
         logger.error(error.message);
         return res.status(500).json({

@@ -27,7 +27,7 @@ async function getUser(req, res) {
     const { id } = req.params;
     try {
         const user = await User.findOne({
-            attributes: ['id', 'username', 'status'],
+            attributes: ['username', 'status'],
             order: [
                 ['id', 'DESC']
             ],
@@ -86,7 +86,7 @@ async function updateUser(req, res) {
             }
         });
         logger.info(`[user.controller] User '${username}' updated!`);
-        return res.json(`[user.controller] Updated Records: ${updatedRecords}`);
+        return res.json(updatedRecords);
     } catch (error) {
         logger.error(error.message);
         return res.status(500).json({
@@ -109,7 +109,7 @@ async function deleteUser(req, res) {
             }
         });
         logger.info(`[user.controller] Deleted users: ${deletedUsers}, Deleted tasks: ${deletedTasks}`);
-        return res.json({ message: `[user.controller] Deleted users: ${deletedUsers}, Deleted tasks: ${deletedTasks}` });
+        return res.sendStatus(204);
     } catch (error) {
         logger.error(error.message);
         return res.status(500).json({
@@ -148,7 +148,7 @@ async function getTasks(req, res) {
     const { id } = req.params;
     try {
         const user = await User.findOne({
-            attributes: ['id', 'username', 'password', 'status'],
+            attributes: ['username'],
             order: [
                 ['id', 'DESC']
             ],
